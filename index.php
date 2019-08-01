@@ -1,5 +1,17 @@
 <?php
 // Dum8_Pa5555w0rd_F0R_7Z
+function random($length)
+{
+    $current = str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")[0];
+    if ($length > 0) {
+        return $current . random($length - 1);
+    }
+    return "";
+}
+
+if (!isset($_COOKIE["id"])) {
+    setcookie("id", random(64), time() + (86400 * 30), "/"); // 86400 = 1 day
+}
 ?>
 <!--JSON is the favorite format even though its not present in this gallery-->
 <html>
@@ -38,18 +50,6 @@
     <a href="?">Home</a><br/>
     <?php
 
-    function random($length)
-    {
-        $current = str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")[0];
-        if ($length > 0) {
-            return $current . random($length - 1);
-        }
-        return "";
-    }
-
-    if (!isset($_COOKIE["id"])) {
-        setcookie("id", random(64), time() + (86400 * 30), "/"); // 86400 = 1 day
-    }
     if (isset($_GET["new"])) {
         if (isset($_POST["name"]) && isset($_POST["info"])) {
             $name = str_replace(".", "", str_replace("/", "", str_replace("\\", "", $_POST["name"])));
@@ -57,9 +57,7 @@
                 mkdir("cats/" . $name);
                 file_put_contents("cats/" . $name . "/info.txt", str_replace("<", "", str_replace(">", "", $_POST["info"])));
                 file_put_contents("cats/" . $name . "/id.txt", $_COOKIE["id"]);
-//                if ($_FILES["image"]["size"] < 500000) {
                 move_uploaded_file($_FILES['image']["tmp_name"], "cats/" . $name . "/pic.png");
-//                }
                 echo "<a href='?cat=$name'>Your cat</a>";
             } else {
                 echo "<p>Cat already exists</p>";
