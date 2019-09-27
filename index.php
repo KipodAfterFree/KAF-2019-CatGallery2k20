@@ -13,7 +13,7 @@ if (!isset($_COOKIE["id"])) {
     setcookie("id", random(64), time() + (86400 * 30), "/"); // 86400 = 1 day
 }
 ?>
-<!--JSON is the favorite format even though its not present in this gallery-->
+<!--JaySON is the favorite format even though its not present in this gallery-->
 <html>
 <head>
     <title>Cat Gallery 2k20</title>
